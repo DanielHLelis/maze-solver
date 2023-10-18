@@ -152,6 +152,8 @@ const bfsMazeSolver = (maze: number[][], start: number[], end: number[]) => {
   return [path.reverse(), steps];
 };
 
+function aStarMazeSolver(maze: number[][], start: number[], end: number[]) {}
+
 function stepColor(curTime: number, stepTime: number) {
   const timeCap = animationElapsedCap;
   const elapsed = curTime - stepTime;
