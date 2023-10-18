@@ -3,16 +3,20 @@ from typing import Tuple
 from .maze import Maze, MazeSolution
 
 
-def maze_dfs_solve(maze: Maze) -> MazeSolution:
+def maze_dfs_heuristic_solve(maze: Maze, heuristic) -> MazeSolution:
     """
-    Solve a maze using depth-first search.
+    Solve a maze using depth-first search with heuristic.
     """
 
     path = []
     steps = []
     visited = [[False] * maze.width for _ in range(maze.height)]
 
-    def dfs_solve(maze: Maze, position: Tuple[int, int]):
+    def dfs_heuristic(candidate: Tupple[int, int]):   #adapta a função heurística para funcionar no sort
+        return heuristic(maze.end, candidate)
+
+
+    def dfs_heuristic_solve(maze: Maze, position: Tuple[int, int]):
         if not maze[position]:  #retorna false se bate num muro
             return False
 
@@ -27,15 +31,16 @@ def maze_dfs_solve(maze: Maze) -> MazeSolution:
             return True
 
         next_positions = maze.candidate_moves(position)
+        next_positions.sort(key=dfs_heuristic)
 
         for nl, nc in next_positions:
-            if dfs_solve(maze, (nl, nc)):
+            if dfs_heuristic_solve(maze, (nl, nc)):
                 path.append(position)
                 return True
 
         return False
 
-    dfs_solve(maze, maze.start)
+    dfs_heuristic_solve(maze, maze.start)
     path.reverse()
     return MazeSolution(maze, steps, path)
 
