@@ -17,6 +17,8 @@ def heu_3(end: Tuple[int, int],candidate: Tuple[int, int]):
 def heu_4(end: Tuple[int, int],candidate: Tuple[int, int]):
     return (abs(end[1]-candidate[1]))
 
+def heu_5(end: Tuple[int, int],candidate: Tuple[int, int]):
+    return abs((end[0]-candidate[0])*(end[1]-candidate[1]))
 
 if __name__ == "__main__":
     m = load_maze_json("./samples/medium.json")
@@ -26,10 +28,12 @@ if __name__ == "__main__":
     dfs_heu2_m = maze_dfs_heuristic_solve(m,heu_2)
     dfs_heu3_m = maze_dfs_heuristic_solve(m,heu_3)
     dfs_heu4_m = maze_dfs_heuristic_solve(m,heu_4)
+    dfs_heu5_m = maze_dfs_heuristic_solve(m,heu_5)
     bhfs1_m = maze_bhfs_solve(m,heu_1)
     bhfs2_m = maze_bhfs_solve(m,heu_2)
     bhfs3_m = maze_bhfs_solve(m,heu_3)
     bhfs4_m = maze_bhfs_solve(m,heu_4)
+    bhfs5_m = maze_bhfs_solve(m,heu_5)
 
     print(f"DFS: {len(dfs_m.steps)} steps, {len(dfs_m.path)} path")
     print(dfs_m)
@@ -108,7 +112,9 @@ if __name__ == "__main__":
     print(f"DFS Heuristic2: {len(dfs_heu2_m.steps)} steps, {len(dfs_heu2_m.path)} path")
     print(f"DFS Heuristic3: {len(dfs_heu3_m.steps)} steps, {len(dfs_heu3_m.path)} path")
     print(f"DFS Heuristic4: {len(dfs_heu4_m.steps)} steps, {len(dfs_heu4_m.path)} path")
+    print(f"DFS Heuristic5: {len(dfs_heu5_m.steps)} steps, {len(dfs_heu5_m.path)} path")
     print(f"BHFS1: {len(bhfs1_m.steps)} steps, {len(bhfs1_m.path)} path")
     print(f"BHFS2: {len(bhfs2_m.steps)} steps, {len(bhfs2_m.path)} path")
     print(f"BHFS3: {len(bhfs3_m.steps)} steps, {len(bhfs3_m.path)} path")
     print(f"BHFS4: {len(bhfs4_m.steps)} steps, {len(bhfs4_m.path)} path")
+    print(f"BHFS5: {len(bhfs4_m.steps)} steps, {len(bhfs5_m.path)} path")
