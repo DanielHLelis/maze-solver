@@ -1,21 +1,10 @@
 from random import Random
 from typing import List, Optional, Any
 
-from .maze import Maze
+from .maze import Maze, Cell
 
 
 # DFS generator works better with a cell matrix, instead of a boolean matrix.
-class Cell:
-    row: int
-    col: int
-    visited: bool
-    walls: List[bool]
-
-    def __init__(self, row: int, col: int):
-        self.row = row
-        self.col = col
-        self.visited = False
-        self.walls = [True, True, True, True]  # Up, Right, Down, Left
 
 
 def maze_dfs_gen(

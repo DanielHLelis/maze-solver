@@ -3,6 +3,19 @@ import json
 from typing import List, Tuple, Optional
 
 
+class Cell:
+    row: int
+    col: int
+    visited: bool
+    walls: List[bool]
+
+    def __init__(self, row: int, col: int):
+        self.row = row
+        self.col = col
+        self.visited = False
+        self.walls = [True, True, True, True]  # Up, Right, Down, Left
+
+
 class Maze:
     start: Tuple[int, int]
     end: Tuple[int, int]
