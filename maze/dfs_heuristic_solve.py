@@ -12,7 +12,7 @@ def maze_dfs_heuristic_solve(maze: Maze, heuristic) -> MazeSolution:
     steps = []
     visited = [[False] * maze.width for _ in range(maze.height)]
 
-    def dfs_heuristic(candidate: Tupple[int, int]):   #adapta a função heurística para funcionar no sort
+    def dfs_heuristic(candidate: Tuple[int, int]):   #adapta a função heurística para funcionar no sort
         return heuristic(maze.end, candidate)
 
 
@@ -30,8 +30,8 @@ def maze_dfs_heuristic_solve(maze: Maze, heuristic) -> MazeSolution:
             path.append(position)
             return True
 
-        next_positions = maze.candidate_moves(position)
-        next_positions.sort(key=dfs_heuristic)
+        next_positions = maze.candidate_moves(position) #pega as posições possíveis
+        next_positions = sorted(next_positions, key=dfs_heuristic)  #ordena as posições possíveis pela heurística
 
         for nl, nc in next_positions:
             if dfs_heuristic_solve(maze, (nl, nc)):
