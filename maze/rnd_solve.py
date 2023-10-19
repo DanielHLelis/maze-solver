@@ -1,23 +1,30 @@
+from typing import Tuple, Optional, Any
 from .maze import Maze, MazeSolution
+from random import Random
 
 
-def maze_dfs_solve(maze: Maze) -> MazeSolution:
+def maze_rnd_solve(
+    maze: Maze, seed: Optional[Any] = "insider_trading_do_bernardo"
+) -> MazeSolution:
     """
-    Solve a maze using depth-first search.
+    Solve a maze using a random search.
     """
+    rng = Random(seed)
 
     visited = [[False] * maze.width for _ in range(maze.height)]
 
-    path = []
+    heads = []
     steps = []
+    path = []
     parents = [[None] * maze.width for _ in range(maze.height)]
 
-    stack = [maze.start]
+    heads.append(maze.start)
 
-    while stack:
-        position = stack.pop()
+    parents[maze.start[0]][maze.start[1]] = None
+    visited[maze.start[0]][maze.start[1]] = True
 
-        visited[position[0]][position[1]] = True
+    while heads:
+        position = heads.pop(rng.randint(0, len(heads) - 1))
         steps.append(position)
 
         if position == maze.end:
@@ -29,8 +36,9 @@ def maze_dfs_solve(maze: Maze) -> MazeSolution:
             if visited[candidate[0]][candidate[1]]:
                 continue
 
+            visited[candidate[0]][candidate[1]] = True
             parents[candidate[0]][candidate[1]] = position
-            stack.append(candidate)
+            heads.append(candidate)
 
     cur = maze.end
     if parents[cur[0]][cur[1]] is not None:
