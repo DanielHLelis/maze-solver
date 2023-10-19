@@ -61,7 +61,7 @@ def WilsonsGenerator(height: int, width: int) -> Maze:
             case -2:
                 return map[curr_pos.row][curr_pos.col - 1] # esquerda
 
-    def walk(maze: Maze) -> List[Tuple[Cell, Direction]]:
+    def walk() -> List[Tuple[Cell, Direction]]:
         start_position = get_random_unvisited([])
         path = {}
         current_position = start_position
@@ -85,6 +85,7 @@ def WilsonsGenerator(height: int, width: int) -> Maze:
         
         return track
 
+    # Gera o mapa
     visited = []
     while len(visited) < height * width:
         for current_position, direction in walk():
