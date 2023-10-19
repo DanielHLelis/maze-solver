@@ -8,36 +8,43 @@ def maze_dfs_solve(maze: Maze) -> MazeSolution:
     Solve a maze using depth-first search.
     """
 
-    path = []
-    steps = []
     visited = [[False] * maze.width for _ in range(maze.height)]
 
+    stack = []
+    steps = []
+    parent = {}
+    
     def dfs_solve(maze: Maze, position: Tuple[int, int]):
-        if not maze[position]:
-            return False
+        stack.append(position)
+        parent[position] = None
 
-        if visited[position[0]][position[1]]:
-            return False
+        while stack:
+            position = stack.pop()    
+            steps.append(position)
+            visited[position[0]][position[1]] = True
 
-        visited[position[0]][position[1]] = True
-        steps.append(position)
+            candidates = [ _p for _p in reversed(maze.candidate_moves(position))
+                    if maze[_p[0],_p[1]] and not visited[_p[0]][_p[1]]]
 
-        if position == maze.end:
-            path.append(position)
-            return True
+            for candidate in candidates:
+                parent[candidate] = position
+            stack.extend(candidates)
 
-        next_positions = maze.candidate_moves(position)
-
-        for nl, nc in next_positions:
-            if dfs_solve(maze, (nl, nc)):
-                path.append(position)
-                return True
-
-        return False
-
+            if position == maze.end: 
+                return position
+    
     dfs_solve(maze, maze.start)
-    path.reverse()
-    return MazeSolution(maze, steps, path)
+    
+    def get_path():
+        path = []
+        position = maze.end
+        while position != None: 
+            path.append(position)
+            position = parent[position]
+        path.reverse()
+        return path     
+
+    return MazeSolution(maze, steps, get_path())
 
 
 if __name__ == "__main__":
