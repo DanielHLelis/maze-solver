@@ -43,12 +43,13 @@ def maze_bhfs_solve(maze: Maze, heuristic) -> MazeSolution:
             while(bhfs_heuristic(queue[0])<next_best):
                 cur1 = queue.pop(0)
                 if bhfs_solve(maze,queue, cur1):
-                    path.append(cur)
                     return True
         
         for nl, nc in next_positions:
             if not visited[nl][nc]:
                 parents[nl][nc] = cur
+                print(parents[nl][nc])
+
                 queue.append((nl, nc))
 
         queue = sorted(queue, key=bhfs_heuristic)  #ordena as novas posições possíveis pela heurística
@@ -56,12 +57,19 @@ def maze_bhfs_solve(maze: Maze, heuristic) -> MazeSolution:
         while(len(queue)>0):
             cur1 = queue.pop(0)
             if bhfs_solve(maze,queue, cur1):
-                path.append(cur)
                 return True
 
         return False
-    
+
+    cur = maze.end
+
     bhfs_solve(maze,queue, maze.start)
+
+    if parents[cur[0]][cur[1]] is not None:
+        while cur is not None:
+            path.append(cur)
+            cur = parents[cur[0]][cur[1]]
+            
     path.reverse()
     return MazeSolution(maze, steps, path)
 

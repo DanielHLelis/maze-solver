@@ -36,49 +36,49 @@ if __name__ == "__main__":
     bhfs5_m = maze_bhfs_solve(m,heu_5)
 
     print(f"DFS: {len(dfs_m.steps)} steps, {len(dfs_m.path)} path")
-    print(dfs_m)
+    #print(dfs_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"BFS: {len(bfs_m.steps)} steps, {len(bfs_m.path)} path")
-    print(bfs_m)
+    #print(bfs_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"DFS Heuristic1: {len(dfs_heu1_m.steps)} steps, {len(dfs_heu1_m.path)} path")
-    print(dfs_heu1_m)
+    #print(dfs_heu1_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"DFS Heuristic2: {len(dfs_heu2_m.steps)} steps, {len(dfs_heu2_m.path)} path")
-    print(dfs_heu2_m)
+    #print(dfs_heu2_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"DFS Heuristic3: {len(dfs_heu3_m.steps)} steps, {len(dfs_heu3_m.path)} path")
-    print(dfs_heu3_m)
+    #print(dfs_heu3_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"DFS Heuristic4: {len(dfs_heu4_m.steps)} steps, {len(dfs_heu4_m.path)} path")
-    print(dfs_heu4_m)
+    #print(dfs_heu4_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"BHFS1: {len(bhfs1_m.steps)} steps, {len(bhfs1_m.path)} path")
-    print(bhfs1_m)
+    #print(bhfs1_m)
 
     print()
     print("=" * 80)
@@ -92,14 +92,14 @@ if __name__ == "__main__":
     print()
 
     print(f"BHFS3: {len(bhfs3_m.steps)} steps, {len(bhfs3_m.path)} path")
-    print(bhfs3_m)
+    #print(bhfs3_m)
 
     print()
     print("=" * 80)
     print()
 
     print(f"BHFS4: {len(bhfs4_m.steps)} steps, {len(bhfs4_m.path)} path")
-    print(bhfs4_m)
+    #print(bhfs4_m)
 
     print()
     print("=" * 80)
