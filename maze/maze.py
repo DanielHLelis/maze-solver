@@ -95,6 +95,18 @@ class MazeSolution:
                 maze_strs[pos[0]][: pos[1]] + "o" + maze_strs[pos[0]][pos[1] + 1 :]
             )
 
+        maze_strs[self.maze.start[0]] = (
+            maze_strs[self.maze.start[0]][: self.maze.start[1]]
+            + "S"
+            + maze_strs[self.maze.start[0]][self.maze.start[1] + 1 :]
+        )
+
+        maze_strs[self.maze.end[0]] = (
+            maze_strs[self.maze.end[0]][: self.maze.end[1]]
+            + "E"
+            + maze_strs[self.maze.end[0]][self.maze.end[1] + 1 :]
+        )
+
         return "\n".join(maze_strs)
 
 
