@@ -22,25 +22,44 @@ def WilsonsGenerator(height: int, width: int) -> Maze:
         for j in range(width):
             map[i].append(Cell(i, j)) # Inicialmente, todos os movimentos são válidos
     
-    maze = Maze(map)
-
-    def get_random_unvisited(map: List(List(Tuple[int][int])), visited_cells: List(Tuple[int][int])) -> Cell:
+    def get_random_unvisited(map: List(List(Cell)), visited_cells: List(Cell)) -> Cell:
         # Pula aleatoriamente pelo tabuleiro até encontrar uma célula não visitada
         position = choice(choice(map))
         while position in visited_cells:
             position = choice(choice(map))  
         return position
 
-    def direction(curr_pos: Tuple[int, int], next_pos: Tuple[int, int]) -> int:
-        if   curr_pos[1] < next_pos[1]: return 0 # acima
-        elif curr_pos[0] < next_pos[0]: return 1 # direita
-        elif curr_pos[1] > next_pos[1]: return 2 # abaixo
-        elif curr_pos[0] > next_pos[0]: return 3 # esquerda 
+    def candidate_moves(map: List(List(Cell)), curr_pos: Cell) -> List(Cell):
+        moves = []
 
-    def move_direction(curr_pos: Tuple[int, int], direction: int):
+        if (curr_pos.row > 1):
+            moves.append(move_direction(map, curr_pos,  1))
 
-        # dasdas
-        return tuple(curr_pos[0] + direction[0], curr_pos[1] + direction[1])
+        if (curr_pos.col < len(map[0]) - 1):
+            moves.append(move_direction(map, curr_pos,  2))
+        
+        if (curr_pos.row < len(map) - 1):
+            moves.append(move_direction(map, curr_pos, -1))
+        
+        if (curr_pos.col > 1):
+            moves.append(move_direction(map, curr_pos, -2))
+
+    def direction(curr_pos: Cell, next_pos: Cell) -> int:
+        if   curr_pos[1] < next_pos[1]: return  1 # acima
+        elif curr_pos[0] < next_pos[0]: return  2 # direita
+        elif curr_pos[1] > next_pos[1]: return -1 # abaixo
+        elif curr_pos[0] > next_pos[0]: return -2 # esquerda 
+
+    def move_direction(map: List(List(Cell)), curr_pos: Cell, direction: int) -> Cell:
+        match(direction):
+            case  1:
+                return map[curr_pos.row + 1][curr_pos.col] # acima
+            case  2:
+                return map[curr_pos.row][curr_pos.col + 1] # direita
+            case -1:
+                return map[curr_pos.row - 1][curr_pos.col] # abaixo
+            case -2:
+                return map[curr_pos.row][curr_pos.col - 1] # esquerda
 
     def walk(maze: Maze) -> List[Tuple[Cell, Direction]]:
         start_position = get_random_unvisited([])
@@ -48,10 +67,11 @@ def WilsonsGenerator(height: int, width: int) -> Maze:
         current_position = start_position
 
         while True:
-            next_position = choice(maze.candidate_moves(current_position))
+            current_position.visited = True
+            next_position : Cell = choice(maze.candidate_moves(current_position))
             path[current_position] = direction(current_position, next_position)
             
-            if next_position in path:
+            if next_position.visited:
                 break
             
             current_position = next_position
@@ -67,5 +87,8 @@ def WilsonsGenerator(height: int, width: int) -> Maze:
 
     visited = []
     while len(visited) < height * width:
-        for position, direction in walk():
-            visited.append(position)
+        for current_position, direction in walk():
+            visited.append(current_position)
+            next_position = move_direction(map, current_position, direction)
+            current_position.walls[direction] = False
+            next_position.walls[-direction] = False
