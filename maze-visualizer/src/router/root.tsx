@@ -36,9 +36,9 @@ export function Root() {
       <MazeViewer maze={maze} counter />
       <Grid container spacing={2} width="100%" columns={8}>
         <Grid sm={8}>
-          <Typography level="h2">Preferências:</Typography>
+          <Typography level="h3">Labirinto:</Typography>
         </Grid>
-        <Grid sm={4}>
+        <Grid xs={8} sm={4} md={2}>
           <Typography gutterBottom>Altura: {height}</Typography>
           <Slider
             defaultValue={51}
@@ -50,7 +50,7 @@ export function Root() {
             valueLabelDisplay="auto"
           />
         </Grid>
-        <Grid sm={4}>
+        <Grid xs={8} sm={4} md={2}>
           <Typography gutterBottom>Largura: {width}</Typography>
           <Slider
             defaultValue={51}
@@ -62,13 +62,13 @@ export function Root() {
             valueLabelDisplay="auto"
           />
         </Grid>
-        <Grid sm={4}>
+        <Grid xs={8} sm={4} md={2}>
           <Typography gutterBottom>Gerador</Typography>
           <Select defaultValue="dfs">
             <Option value="dfs">DFS</Option>
           </Select>
         </Grid>
-        <Grid sm={4}>
+        <Grid xs={8} sm={4} md={2}>
           <Typography gutterBottom>Seed</Typography>
           <Input defaultValue="seed feliz :)" />
         </Grid>
