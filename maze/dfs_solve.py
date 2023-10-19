@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from .maze import Maze, MazeSolution
 
 
@@ -10,41 +8,39 @@ def maze_dfs_solve(maze: Maze) -> MazeSolution:
 
     visited = [[False] * maze.width for _ in range(maze.height)]
 
-    stack = []
+    path = []
     steps = []
-    parent = {}
-    
-    def dfs_solve(maze: Maze, position: Tuple[int, int]):
-        stack.append(position)
-        parent[position] = None
+    parents = [[None] * maze.width for _ in range(maze.height)]
 
-        while stack:
-            position = stack.pop()    
-            steps.append(position)
-            visited[position[0]][position[1]] = True
+    stack = [maze.start]
 
-            candidates = [ _p for _p in reversed(maze.candidate_moves(position))
-                    if maze[_p[0],_p[1]] and not visited[_p[0]][_p[1]]]
+    while stack:
+        position = stack.pop()
 
-            for candidate in candidates:
-                parent[candidate] = position
-            stack.extend(candidates)
+        visited[position[0]][position[1]] = True
+        steps.append(position)
 
-            if position == maze.end: 
-                return position
-    
-    dfs_solve(maze, maze.start)
-    
-    def get_path():
-        path = []
-        position = maze.end
-        while position != None: 
-            path.append(position)
-            position = parent[position]
-        path.reverse()
-        return path     
+        if position == maze.end:
+            break
 
-    return MazeSolution(maze, steps, get_path())
+        candidates = maze.candidate_moves(position)
+
+        for candidate in candidates:
+            if visited[candidate[0]][candidate[1]]:
+                continue
+
+            parents[candidate[0]][candidate[1]] = position
+            stack.append(candidate)
+
+    cur = maze.end
+    if parents[cur[0]][cur[1]] is not None:
+        while cur is not None:
+            path.append(cur)
+            cur = parents[cur[0]][cur[1]]
+
+    path.reverse()
+
+    return MazeSolution(maze, steps, path)
 
 
 if __name__ == "__main__":

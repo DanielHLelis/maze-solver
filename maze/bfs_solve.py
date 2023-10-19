@@ -1,5 +1,3 @@
-from typing import Tuple
-
 from .maze import Maze, MazeSolution
 
 
