@@ -1,51 +1,54 @@
-from typing import Tuple
+from typing import Tuple, Optional, Any
 from .maze import Maze, MazeSolution
-from random import shuffle
+from random import Random
 
-def maze_rnd_solve(maze: Maze) -> MazeSolution:
+
+def maze_rnd_solve(
+    maze: Maze, seed: Optional[Any] = "insider_trading_do_bernardo"
+) -> MazeSolution:
     """
     Solve a maze using a random search.
     """
+    rng = Random(seed)
 
     visited = [[False] * maze.width for _ in range(maze.height)]
 
-    head_list = []
+    heads = []
     steps = []
-    parent = {}
-    
-    def rnd_solve(maze: Maze, position: Tuple[int, int]):
-        head_list.append(position)
-        parent[position] = None
-        visited[position[0]][position[1]] = True
-        
-        while head_list:
-            shuffle(head_list)
-            position = head_list.pop(0)
-            steps.append(position)
+    path = []
+    parents = [[None] * maze.width for _ in range(maze.height)]
 
-            candidates = [ _p for _p in reversed(maze.candidate_moves(position))
-                if maze[_p[0],_p[1]] and not visited[_p[0]][_p[1]]]
+    heads.append(maze.start)
 
-            for candidate in candidates:
-                parent[candidate] = position
-                visited[candidate[0]][candidate[1]] = True
-            head_list.extend(candidates)
+    parents[maze.start[0]][maze.start[1]] = None
+    visited[maze.start[0]][maze.start[1]] = True
 
-            if position == maze.end: 
-                return position
-    
-    rnd_solve(maze, maze.start)
-    
-    def get_path():
-        path = []
-        position = maze.end
-        while position != None: 
-            path.append(position)
-            position = parent[position]
-        path.reverse()
-        return path     
+    while heads:
+        position = heads.pop(rng.randint(0, len(heads) - 1))
+        steps.append(position)
 
-    return MazeSolution(maze, steps, get_path())
+        if position == maze.end:
+            break
+
+        candidates = maze.candidate_moves(position)
+
+        for candidate in candidates:
+            if visited[candidate[0]][candidate[1]]:
+                continue
+
+            visited[candidate[0]][candidate[1]] = True
+            parents[candidate[0]][candidate[1]] = position
+            heads.append(candidate)
+
+    cur = maze.end
+    if parents[cur[0]][cur[1]] is not None:
+        while cur is not None:
+            path.append(cur)
+            cur = parents[cur[0]][cur[1]]
+
+    path.reverse()
+
+    return MazeSolution(maze, steps, path)
 
 
 if __name__ == "__main__":
