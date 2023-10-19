@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Maze Inc.</title>
+    <style>
+        html, body {
+            width: 100vw;
+            height: 100%;
+            background-color: #222;
+        }
+
+        * {
+            color: #fff;
+        }
+
+        button {
+            border: 1px solid white;
+            background: none;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        main {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #maze-canvas {
+            /* border: 1px solid black; */
+            margin: 2rem auto;
+
+            width: max-content;
+            height: max-content;
+
+            max-width: 800px;
+            max-height: 800px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>
+            A Maze Inc.
+        </h1>
+        <button id="start-btn">Start</button>
+        <button id="stop-btn">Stop</button>
+        <button id="reset-btn">Reset</button>
+
+        <canvas id="maze-canvas"></canvas>
+    </main>
+
+    <script src="./main.js" type="application/javascript"></script>
+</body>
+</html>
