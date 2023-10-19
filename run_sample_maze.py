@@ -1,7 +1,7 @@
 from maze.maze import load_maze_json
 from maze.bfs_solve import maze_bfs_solve
 from maze.dfs_solve import maze_dfs_solve
-from maze.random_solve import maze_rnd_solve
+from maze.rnd_solve import maze_rnd_solve
 
 if __name__ == "__main__":
     m = load_maze_json("./samples/medium.json")
