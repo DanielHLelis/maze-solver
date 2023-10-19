@@ -26,12 +26,6 @@ class Maze:
         if force_end:
             self.end = self.find_end()
 
-        if not self[start]:
-            raise ValueError("Start position must be a path")
-
-        if not self[end]:
-            raise ValueError("End position must be a path")
-
     @property
     def height(self) -> int:
         return len(self.matrix)
@@ -45,10 +39,10 @@ class Maze:
         Return a list of valid moves from the given position.
         """
         next_positions = (
-            (position[0] - 1, position[1]),
-            (position[0] + 1, position[1]),
-            (position[0], position[1] - 1),
             (position[0], position[1] + 1),
+            (position[0], position[1] - 1),
+            (position[0] + 1, position[1]),
+            (position[0] - 1, position[1]),
         )
 
         return tuple(pos for pos in next_positions if self[pos])
@@ -100,6 +94,18 @@ class MazeSolution:
             maze_strs[pos[0]] = (
                 maze_strs[pos[0]][: pos[1]] + "o" + maze_strs[pos[0]][pos[1] + 1 :]
             )
+
+        maze_strs[self.maze.start[0]] = (
+            maze_strs[self.maze.start[0]][: self.maze.start[1]]
+            + "S"
+            + maze_strs[self.maze.start[0]][self.maze.start[1] + 1 :]
+        )
+
+        maze_strs[self.maze.end[0]] = (
+            maze_strs[self.maze.end[0]][: self.maze.end[1]]
+            + "E"
+            + maze_strs[self.maze.end[0]][self.maze.end[1] + 1 :]
+        )
 
         return "\n".join(maze_strs)
 
