@@ -1,5 +1,5 @@
 maze.usp.lelis.dev {
-    encode gzip, zstd
+    encode zstd gzip
 
     handle_path /api/* {
         reverse_proxy flask:8000
