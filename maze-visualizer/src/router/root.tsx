@@ -82,7 +82,7 @@ export function Root() {
     setNextFrame(0);
   };
 
-  const handleFrameSlider = (e: unknown, v: number | number[]) => {
+  const handleFrameSlider = (_e: unknown, v: number | number[]) => {
     setCurrentFrame(v as number);
     setNextFrame(v as number);
   };
@@ -299,7 +299,7 @@ export function Root() {
                   <Slider
                     defaultValue={1}
                     value={stepsPerFrame}
-                    onChange={(e, v) => setStepsPerFrame(v as number)}
+                    onChange={(_e, v) => setStepsPerFrame(v as number)}
                     step={1}
                     min={1}
                     max={100}
@@ -372,7 +372,7 @@ export function Root() {
               <Slider
                 defaultValue={51}
                 value={height}
-                onChange={(e, v) => setHeight(v as number)}
+                onChange={(_e, v) => setHeight(v as number)}
                 step={2}
                 min={5}
                 max={MAX_SIZE}

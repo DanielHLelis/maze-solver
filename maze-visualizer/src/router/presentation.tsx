@@ -216,7 +216,7 @@ function MazeSlide({
     setPlaying(true);
   };
 
-  const handleFrameSlider = (e: unknown, v: number | number[]) => {
+  const handleFrameSlider = (_e: unknown, v: number | number[]) => {
     setCurrentFrame(v as number);
     setNextFrame(v as number);
   };
@@ -299,13 +299,6 @@ const MazeSlideViewer = styled(MazeViewer)``;
 const Authors = styled.ul`
   font-size: 1.5rem;
   list-style: none;
-`;
-
-const VisualizationTitle = styled.h2`
-  font-size: 3rem;
-  text-align: center;
-  color: ${theme.colors?.secondary};
-  margin-bottom: 0;
 `;
 
 const AlgorithmTitle = styled.h3`
