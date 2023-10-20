@@ -493,6 +493,8 @@ export function Root() {
 }
 
 const StyledMaze = styled(MazeViewer)`
-  max-width: 720px;
+  width: auto;
+  height: 100%;
+  max-width: min(720px, calc(100vw - 32px));
   max-height: 500px;
 `;
