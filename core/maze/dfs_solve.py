@@ -1,7 +1,17 @@
+from typing import Callable, Tuple, Optional
+
 from .maze import Maze, MazeSolution
+from .heuristics import (
+    euclidean_heuristic,
+    manhattan_heuristic,
+    vertical_heuristic,
+    horizontal_heuristic,
+)
 
 
-def maze_dfs_solve(maze: Maze) -> MazeSolution:
+def maze_dfs_solve(
+    maze: Maze, heuristic: Optional[Callable[[Maze, Tuple[int, int]], float]] = None
+) -> MazeSolution:
     """
     Solve a maze using depth-first search.
     """
@@ -25,6 +35,9 @@ def maze_dfs_solve(maze: Maze) -> MazeSolution:
 
         candidates = maze.candidate_moves(position)
 
+        if heuristic is not None:
+            candidates = sorted(candidates, key=lambda x: heuristic(maze, x))
+
         for candidate in candidates:
             if visited[candidate[0]][candidate[1]]:
                 continue
@@ -41,6 +54,12 @@ def maze_dfs_solve(maze: Maze) -> MazeSolution:
     path.reverse()
 
     return MazeSolution(maze, steps, path)
+
+
+maze_dfs_solve_euclidean = lambda maze: maze_dfs_solve(maze, euclidean_heuristic)
+maze_dfs_solve_manhattan = lambda maze: maze_dfs_solve(maze, manhattan_heuristic)
+maze_dfs_solve_vertical = lambda maze: maze_dfs_solve(maze, vertical_heuristic)
+maze_dfs_solve_horizontal = lambda maze: maze_dfs_solve(maze, horizontal_heuristic)
 
 
 if __name__ == "__main__":

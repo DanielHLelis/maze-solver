@@ -3,7 +3,7 @@ from maze.bfs_solve import maze_bfs_solve
 from maze.dfs_solve import maze_dfs_solve
 from maze.rnd_solve import maze_rnd_solve
 from maze.astar_solve import (
-    maze_astar_solve_euclidian,
+    maze_astar_solve_euclidean,
     maze_astar_solve_manhattan,
     maze_astar_solve_dijkstra,
 )
@@ -14,7 +14,7 @@ def run_solvers(m):
     bfs_m = maze_bfs_solve(m)
     rnd_m = maze_rnd_solve(m)
     astar_dijkstra_m = maze_astar_solve_dijkstra(m)
-    astar_euclidian_m = maze_astar_solve_euclidian(m)
+    astar_euclidean_m = maze_astar_solve_euclidean(m)
     astar_manhattan_m = maze_astar_solve_manhattan(m)
 
     print(f"DFS: {len(dfs_m.steps)} steps, {len(dfs_m.path)} path")
@@ -48,9 +48,9 @@ def run_solvers(m):
     print()
 
     print(
-        f"ASTAR (Euclidian): {len(astar_euclidian_m.steps)} steps, {len(astar_euclidian_m.path)} path"
+        f"ASTAR (Euclidian): {len(astar_euclidean_m.steps)} steps, {len(astar_euclidean_m.path)} path"
     )
-    print(astar_euclidian_m)
+    print(astar_euclidean_m)
 
     print()
     print("=" * 80)

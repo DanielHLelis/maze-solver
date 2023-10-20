@@ -5,7 +5,7 @@ from .maze import Maze, MazeSolution
 from .heuristics import dijkstra_heuristic, euclidean_heuristic, manhattan_heuristic
 
 
-def maze_astar_solve(
+def maze_bfirst_solve(
     maze: Maze,
     heuristic: Callable[[Maze, Tuple[int, int]], float] = manhattan_heuristic,
 ) -> MazeSolution:
@@ -14,10 +14,8 @@ def maze_astar_solve(
     path = []
     steps = []
     parents = [[None] * maze.width for _ in range(maze.height)]
-    g_values = [[float("inf")] * maze.width for _ in range(maze.height)]
 
     pqueue = [(0, maze.start, None)]
-    g_values[maze.start[0]][maze.start[1]] = 0
 
     while pqueue:
         _, cur, par = heapq.heappop(pqueue)  # cost is g(x, y)
@@ -37,11 +35,8 @@ def maze_astar_solve(
         for candidate in candidates:
             if visited[candidate[0]][candidate[1]]:
                 continue
-            g = g_values[cur[0]][cur[1]] + 1
-            if g < g_values[candidate[0]][candidate[1]]:
-                g_values[candidate[0]][candidate[1]] = g
-                f = g + heuristic(maze, candidate)
-                heapq.heappush(pqueue, (f, candidate, cur))
+            f = heuristic(maze, candidate)
+            heapq.heappush(pqueue, (f, candidate, cur))
 
     cur = maze.end
     if parents[cur[0]][cur[1]] is not None:
@@ -55,7 +50,7 @@ def maze_astar_solve(
 
 
 # Aliases
-maze_astar_solve_euclidean = lambda maze: maze_astar_solve(maze, euclidean_heuristic)
-maze_astar_solve_manhattan = lambda maze: maze_astar_solve(maze, manhattan_heuristic)
-maze_astar_solve_dijkstra = lambda maze: maze_astar_solve(maze, dijkstra_heuristic)
-maze_dijkstra_solve = maze_astar_solve_dijkstra
+maze_bfirst_solve_euclidean = lambda maze: maze_bfirst_solve(maze, euclidean_heuristic)
+maze_bfirst_solve_manhattan = lambda maze: maze_bfirst_solve(maze, manhattan_heuristic)
+maze_bfirst_solve_dijkstra = lambda maze: maze_bfirst_solve(maze, dijkstra_heuristic)
+maze_dijkstra_solve = maze_bfirst_solve_dijkstra

@@ -24,11 +24,16 @@ interface MazeSolution {
 type MazeGenerator = "dfs" | "chaos-dfs" | "wilson";
 type MazeSolver =
   | "dfs"
+  | "dfs-euclidean"
+  | "dfs-manhattan"
   | "bfs"
   | "rds"
-  | "astar-euclidian"
+  | "astar-euclidean"
   | "astar-manhattan"
-  | "astar-dijkstra";
+  | "astar-dijkstra"
+  | "bfirst-euclidean"
+  | "bfirst-manhattan"
+  | "bfirst-dijkstra";
 
 const MAX_SIZE = 501;
 
@@ -321,11 +326,22 @@ export function Root() {
                   onChange={(_e, v) => setSolver(v as MazeSolver)}
                 >
                   <Option value="dfs">DFS</Option>
+                  <Option value="dfs-euclidean">
+                    DFS com heurística Euclidiana
+                  </Option>
+                  <Option value="dfs-manhattan">
+                    DFS com heurística de Manhattan
+                  </Option>
                   <Option value="bfs">BFS</Option>
                   <Option value="rds">Random Walk</Option>
-                  <Option value="astar-euclidian">A* Euclidiano</Option>
+                  <Option value="astar-euclidean">A* Euclidiano</Option>
                   <Option value="astar-manhattan">A* Manhattan</Option>
                   <Option value="astar-dijkstra">Dijkstra</Option>
+                  <Option value="bfirst-euclidean">
+                    Best-First Euclidiano
+                  </Option>
+                  <Option value="bfirst-manhattan">Best-First Manhattan</Option>
+                  <Option value="bfirst-dijkstra">Best-First h=0</Option>
                 </Select>
               </Stack>
               <Stack>
