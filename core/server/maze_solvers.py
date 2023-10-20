@@ -1,3 +1,4 @@
+import time
 from flask import request
 
 from .app import app
@@ -6,9 +7,14 @@ from .mapper import dict_to_maze, maze_solution_to_dict
 from ..maze.dfs_solve import maze_dfs_solve
 from ..maze.bfs_solve import maze_bfs_solve
 from ..maze.rnd_solve import maze_rnd_solve
+from ..maze.astar_solve import (
+    maze_astar_solve_dijkstra,
+    maze_astar_solve_euclidian,
+    maze_astar_solve_manhattan,
+)
 
 
-@app.route("/maze/dfs_solve", methods=["POST"])
+@app.route("/maze/solve/dfs", methods=["POST"])
 def maze_dfs_solve_route():
     """
     Solve a maze using the DFS algorithm.
@@ -19,7 +25,7 @@ def maze_dfs_solve_route():
     return maze_solution_to_dict(maze_solution)
 
 
-@app.route("/maze/bfs_solve", methods=["POST"])
+@app.route("/maze/solve/bfs", methods=["POST"])
 def maze_bfs_solve_route():
     """
     Solve a maze using the BFS algorithm.
@@ -30,12 +36,46 @@ def maze_bfs_solve_route():
     return maze_solution_to_dict(maze_solution)
 
 
-@app.route("/maze/rnd_solve", methods=["POST"])
-def maze_rnd_solve_route():
+@app.route("/maze/solve/rds", methods=["POST"])
+def maze_rds_solve_route():
     """
     Solve a maze using the random walk algorithm.
     """
+    seed = request.args.get("seed") or time.time()
     maze = dict_to_maze(request.json)
-    maze_solution = maze_rnd_solve(maze)
+    maze_solution = maze_rnd_solve(maze, seed=seed)
+
+    return maze_solution_to_dict(maze_solution)
+
+
+@app.route("/maze/solve/astar-dijkstra", methods=["POST"])
+def maze_astar_solve_dijkstra_route():
+    """
+    Solve a maze using the A* algorithm with Dijkstra's heuristic.
+    """
+    maze = dict_to_maze(request.json)
+    maze_solution = maze_astar_solve_dijkstra(maze)
+
+    return maze_solution_to_dict(maze_solution)
+
+
+@app.route("/maze/solve/astar-euclidian", methods=["POST"])
+def maze_astar_solve_euclidian_route():
+    """
+    Solve a maze using the A* algorithm with Euclidian heuristic.
+    """
+    maze = dict_to_maze(request.json)
+    maze_solution = maze_astar_solve_euclidian(maze)
+
+    return maze_solution_to_dict(maze_solution)
+
+
+@app.route("/maze/solve/astar-manhattan", methods=["POST"])
+def maze_astar_solve_manhattan_route():
+    """
+    Solve a maze using the A* algorithm with Manhattan heuristic.
+    """
+    maze = dict_to_maze(request.json)
+    maze_solution = maze_astar_solve_manhattan(maze)
 
     return maze_solution_to_dict(maze_solution)

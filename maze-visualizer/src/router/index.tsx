@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Example } from "./example";
 import { NotFound } from "./not-found";
 
 import "@fontsource/inter";
@@ -13,7 +12,6 @@ function SiteRoutes() {
       <CssBaseline />
       <Routes>
         <Route path="/" element={<Root />} />
-        <Route path="/example" element={<Example />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </CssVarsProvider>

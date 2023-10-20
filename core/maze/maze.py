@@ -30,8 +30,8 @@ class Maze:
         force_end: bool = False,
     ):
         self.matrix = matrix
-        self.start = start
-        self.end = end
+        self.start = tuple(start)
+        self.end = tuple(end)
 
         if force_start:
             self[start] = True

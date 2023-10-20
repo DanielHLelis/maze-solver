@@ -24,6 +24,8 @@ export interface AnimationConfigs {
   oldColor: RGBColorArray;
   recentColor: RGBColorArray;
   solutionColor: RGBColorArray;
+  startColor?: RGBColorArray;
+  endColor?: RGBColorArray;
   interpolationRange: number;
 }
 
@@ -34,6 +36,7 @@ export interface AnimationState {
   nextFrame: number;
   stepsPerFrame: number;
   updateExternalFrame: (frame: number) => void;
+  setPlaying: (playing: boolean) => void;
 }
 
 export interface MazeViewerProps
@@ -46,6 +49,7 @@ export interface MazeViewerProps
 
   stepsPerFrame?: number;
   playing?: boolean;
+  setPlaying?: (playing: boolean) => void;
   counter: boolean;
 
   nextFrame?: number | null;
@@ -60,6 +64,8 @@ const defaultAnimationConfigs: AnimationConfigs = {
   oldColor: [255, 0, 0],
   recentColor: [0, 255, 0],
   solutionColor: [0, 0, 255],
+  startColor: [255, 200, 200],
+  endColor: [255, 0, 255],
   interpolationRange: 100,
 };
 
@@ -75,6 +81,7 @@ export function MazeViewer({
   nextFrame,
   setCurrentFrame = () => {},
   setNextFrame = () => {},
+  setPlaying = () => {},
   ...props
 }: MazeViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -85,6 +92,7 @@ export function MazeViewer({
     nextFrame: 0,
     stepsPerFrame: 0,
     updateExternalFrame: () => {},
+    setPlaying: () => {},
   });
 
   // Control animation state outside of react
@@ -96,6 +104,7 @@ export function MazeViewer({
       nextFrame: nextFrame == null ? animationRef.current.nextFrame : nextFrame,
       stepsPerFrame,
       updateExternalFrame: setCurrentFrame,
+      setPlaying,
     };
 
     if (nextFrame != null) {
@@ -107,6 +116,7 @@ export function MazeViewer({
     nextFrame,
     setCurrentFrame,
     setNextFrame,
+    setPlaying,
     configs,
   ]);
 
@@ -190,6 +200,26 @@ export function MazeViewer({
         }
       }
 
+      if (state.configs.startColor && maze.start) {
+        ctx.fillStyle = toRGBString(state.configs.startColor);
+        ctx.fillRect(
+          maze.start[1] * scaler,
+          maze.start[0] * scaler,
+          scaler,
+          scaler
+        );
+      }
+
+      if (state.configs.endColor && maze.end) {
+        ctx.fillStyle = toRGBString(state.configs.endColor);
+        ctx.fillRect(
+          maze.end[1] * scaler,
+          maze.end[0] * scaler,
+          scaler,
+          scaler
+        );
+      }
+
       // Print counter for debug
       if (counter) {
         ctx.fillStyle = "magenta";
@@ -203,7 +233,13 @@ export function MazeViewer({
 
       // Setup next frame
       if (state.playing) {
-        state.nextFrame = state.currentFrame + state.stepsPerFrame;
+        state.nextFrame = Math.min(
+          state.currentFrame + state.stepsPerFrame,
+          steps.length
+        );
+        if (state.currentFrame >= steps.length) {
+          state.setPlaying(false);
+        }
       }
 
       // Request next frame.
@@ -223,7 +259,7 @@ export function MazeViewer({
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [maze, resolution, steps, path]);
+  }, [maze, resolution, steps, path, counter]);
 
   return <StyledMaze size="400px" {...props} ref={canvasRef} />;
 }

@@ -9,13 +9,11 @@ def dijkstra_heuristic(maze: Maze, current: Tuple[int, int]) -> float:
 
 
 def euclidian_heuristic(maze: Maze, current: Tuple[int, int]) -> float:
-    return ((maze.start[0] - current[0]) ** 2 + (maze.start[1] - current[1]) ** 2) ** (
-        0.5
-    )
+    return ((maze.end[0] - current[0]) ** 2 + (maze.end[1] - current[1]) ** 2) ** (0.5)
 
 
 def manhattan_heuristic(maze: Maze, current: Tuple[int, int]) -> float:
-    return abs(maze.start[0] - current[0]) + abs(maze.start[1] - current[1])
+    return abs(maze.end[0] - current[0]) + abs(maze.end[1] - current[1])
 
 
 def maze_astar_solve(
@@ -49,7 +47,7 @@ def maze_astar_solve(
             if visited[candidate[0]][candidate[1]]:
                 continue
             # f = g + h
-            new_cost = cost + heuristic(maze, candidate)
+            new_cost = cost + 1 + heuristic(maze, candidate)
             heapq.heappush(pqueue, (new_cost, candidate, cur))
 
     cur = maze.end

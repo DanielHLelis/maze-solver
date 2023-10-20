@@ -1,5 +1,5 @@
 from random import Random
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Tuple
 
 from .maze import Maze, Cell
 
@@ -8,7 +8,11 @@ from .maze import Maze, Cell
 
 
 def maze_dfs_gen(
-    height: int, width: int, seed: Optional[Any] = "insider_trading_do_bernardo"
+    height: int,
+    width: int,
+    start: Optional[Tuple[int, int]] = None,
+    end: Optional[Tuple[int, int]] = None,
+    seed: Optional[Any] = "insider_trading_do_bernardo",
 ) -> Maze:
     moves = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     rng = Random(seed)
@@ -20,8 +24,15 @@ def maze_dfs_gen(
 
     cells = [[Cell(r, c) for c in range(c_width)] for r in range(c_height)]
 
-    start_point = (rng.randint(0, c_height - 1), rng.randint(0, c_width - 1))
-    end_point = (rng.randint(0, c_height - 1), rng.randint(0, c_width - 1))
+    if start is None:
+        start_point = (rng.randint(0, c_height - 1), rng.randint(0, c_width - 1))
+    else:
+        start_point = (start[0] // 2, start[1] // 2)
+
+    if end is None:
+        end_point = (rng.randint(0, c_height - 1), rng.randint(0, c_width - 1))
+    else:
+        end_point = (end[0] // 2, end[1] // 2)
 
     stack = [(cells[start_point[0]][start_point[1]], None, None)]
 
@@ -73,3 +84,26 @@ def maze_dfs_gen(
         start=(start_point[0] * 2 + 1, start_point[1] * 2 + 1),
         end=(end_point[0] * 2 + 1, end_point[1] * 2 + 1),
     )
+
+
+def maze_chaos_dfs_gen(
+    height: int,
+    width: int,
+    start: Optional[Tuple[int, int]] = None,
+    end: Optional[Tuple[int, int]] = None,
+    seed: Optional[Any] = "insider_trading_do_bernardo",
+    p: Optional[float] = 0.05,
+):
+    maze = maze_dfs_gen(height, width, start, end, seed)
+
+    if p is None:
+        p = 0.05
+
+    rng = Random(seed)
+
+    for r in range(maze.height):
+        for c in range(maze.width):
+            if rng.random() < p:
+                maze[r, c] = True
+
+    return maze
