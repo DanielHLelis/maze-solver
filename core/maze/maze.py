@@ -3,6 +3,19 @@ import json
 from typing import List, Tuple, Optional
 
 
+class Cell:
+    row: int
+    col: int
+    visited: bool
+    walls: List[bool]
+
+    def __init__(self, row: int, col: int):
+        self.row = row
+        self.col = col
+        self.visited = False
+        self.walls = [True, True, True, True]  # Up, Right, Down, Left
+
+
 class Maze:
     start: Tuple[int, int]
     end: Tuple[int, int]
@@ -17,8 +30,8 @@ class Maze:
         force_end: bool = False,
     ):
         self.matrix = matrix
-        self.start = start
-        self.end = end
+        self.start = tuple(start)
+        self.end = tuple(end)
 
         if force_start:
             self[start] = True
@@ -126,10 +139,12 @@ def dump_maze_json(maze: Maze, path: str):
         "matrix": maze.matrix,
         "start": list(maze.start),
         "end": list(maze.end),
+        "width": maze.width,
+        "height": maze.height,
     }
 
     with open(path, "w") as f:
-        json.dump(maze_json, f, indent=4)
+        json.dump(maze_json, f)
 
 
 def load_maze_solution_json(path: str) -> MazeSolution:
@@ -149,7 +164,7 @@ def dump_maze_solution_json(maze_solution: MazeSolution, path: str):
     }
 
     with open(path, "w") as f:
-        json.dump(maze_solution_json, f, indent=4)
+        json.dump(maze_solution_json, f)
 
 
 if __name__ == "__main__":
