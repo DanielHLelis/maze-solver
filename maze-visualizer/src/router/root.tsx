@@ -21,7 +21,7 @@ interface MazeSolution {
   steps: MazeCoord[];
 }
 
-type MazeGenerator = "dfs" | "chaos-dfs";
+type MazeGenerator = "dfs" | "chaos-dfs" | "wilson";
 type MazeSolver =
   | "dfs"
   | "bfs"
@@ -386,6 +386,7 @@ export function Root() {
               >
                 <Option value="dfs">DFS Aleatório</Option>
                 <Option value="chaos-dfs">DFS do Caos</Option>
+                <Option value="wilson">Wilson</Option>
               </Select>
             </Grid>
             <Grid xs={2} sm={1}>
