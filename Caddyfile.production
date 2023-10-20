@@ -1,8 +1,4 @@
-http://10.0.35.140, 
-http://maze.usp.lelis.dev, 
-http://maze.usp.v6.lelis.br, 
-https://maze.usp.lelis.dev, 
-https://maze.usp.v6.lelis.br {
+maze.usp.lelis.dev {
     handle_path /api/* {
         reverse_proxy flask:8000
     }
