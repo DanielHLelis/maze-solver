@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -72,10 +72,25 @@ export function Root() {
   const solverHasSeed = solver === "rds";
 
   /* Actions */
-  const handlePlayStop = () => {
+  const handlePlayStop = useCallback(() => {
     if (mazeSolution.steps.length === 0) return;
     setPlaying(!playing);
-  };
+  }, [playing, mazeSolution]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === " " && e.target === document.body) {
+        e.preventDefault();
+        handlePlayStop();
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+
+  }, [handlePlayStop]);
 
   const handleReset = () => {
     setPlaying(false);
@@ -479,5 +494,5 @@ export function Root() {
 
 const StyledMaze = styled(MazeViewer)`
   max-width: 720px;
-  max-height: 600px;
+  max-height: 500px;
 `;

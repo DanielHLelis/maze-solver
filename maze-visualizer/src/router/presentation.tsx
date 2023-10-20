@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useEffect, useCallback } from "react";
 import {
   Deck,
   Slide,
@@ -263,7 +264,7 @@ interface MazeSlideProps {
 function MazeSlide({
   maze,
   solution,
-  initialStepsPerFrame = 4,
+  initialStepsPerFrame = 6,
 }: MazeSlideProps) {
   const [playing, setPlaying] = useState<boolean>(false);
   const [currentFrame, setCurrentFrame] = useState<number>(0);
@@ -273,15 +274,35 @@ function MazeSlide({
   const [stepsPerFrame, setStepsPerFrame] =
     useState<number>(initialStepsPerFrame);
 
-  const handlePlayStop = () => {
-    if (solution?.steps.length === 0) return;
+  const handlePlayStop = useCallback(() => {
+    if (solution == null || solution.steps.length === 0) return;
     setPlaying(!playing);
-  };
+  }, [playing, solution]);
 
   const handleReset = () => {
     setNextFrame(0);
     setPlaying(true);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "k" && e.target === document.body) {
+        e.preventDefault();
+        handleReset();
+      }
+      if (e.key === " " && e.target === document.body) {
+        e.preventDefault();
+        handlePlayStop();
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+
+  }, [handlePlayStop]);
+
 
   const handleFrameSlider = (_e: unknown, v: number | number[]) => {
     setCurrentFrame(v as number);
