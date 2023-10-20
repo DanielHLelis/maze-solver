@@ -1,10 +1,11 @@
-maze.usp.v6.lelis.dev/api/*, maze.usp.lelis.dev/api/* {
-    uri strip_prefix /api
-    reverse_proxy flask:8000
-    
+{
+	auto_https disable_redirects
 }
 
 maze.usp.v6.lelis.dev, maze.usp.lelis.dev {
+    handle_path /api/* {
+        reverse_proxy flask:8000
+    }
     root * /var/www/static
     file_server
 }
