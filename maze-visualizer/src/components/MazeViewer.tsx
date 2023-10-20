@@ -50,7 +50,7 @@ export interface MazeViewerProps
   stepsPerFrame?: number;
   playing?: boolean;
   setPlaying?: (playing: boolean) => void;
-  counter: boolean;
+  counter?: boolean;
 
   nextFrame?: number | null;
   setNextFrame?: (frame: number | null) => void;

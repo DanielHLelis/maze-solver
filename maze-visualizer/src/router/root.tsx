@@ -13,7 +13,8 @@ import {
 import { Maze, MazeCoord, MazeViewer } from "../components/MazeViewer";
 
 import sample_maze from "../assets/sample.maze.json";
-import sample_maze_sol from "../assets/sample.maze.solution.json";
+import sample_maze_sol from "../assets/sample.bfs.json";
+import styled from "@emotion/styled";
 
 interface MazeSolution {
   path: MazeCoord[];
@@ -223,7 +224,7 @@ export function Root() {
     >
       <Typography level="h1">A Maze Inc.</Typography>
 
-      <MazeViewer
+      <StyledMaze
         maze={maze}
         counter={false}
         path={mazeSolution.path}
@@ -282,7 +283,7 @@ export function Root() {
             </Grid>
             <Grid xs={1}>
               <Button fullWidth onClick={handleReset}>
-                Reset
+                Reiniciar
               </Button>
             </Grid>
             <Grid xs={2}>
@@ -398,7 +399,7 @@ export function Root() {
             <Grid xs={2} sm={1}>
               <Typography gutterBottom>P</Typography>
               <Input
-                placeholder="0.01"
+                placeholder="0.05"
                 disabled={generator !== "chaos-dfs"}
                 value={generator !== "chaos-dfs" ? "Não aplicável" : genP}
                 onChange={handleGenP}
@@ -460,3 +461,8 @@ export function Root() {
     </Stack>
   );
 }
+
+const StyledMaze = styled(MazeViewer)`
+  max-width: 720px;
+  max-height: 600px;
+`;

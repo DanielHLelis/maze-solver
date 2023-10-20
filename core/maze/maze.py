@@ -144,7 +144,7 @@ def dump_maze_json(maze: Maze, path: str):
     }
 
     with open(path, "w") as f:
-        json.dump(maze_json, f, indent=4)
+        json.dump(maze_json, f)
 
 
 def load_maze_solution_json(path: str) -> MazeSolution:
@@ -164,7 +164,7 @@ def dump_maze_solution_json(maze_solution: MazeSolution, path: str):
     }
 
     with open(path, "w") as f:
-        json.dump(maze_solution_json, f, indent=4)
+        json.dump(maze_solution_json, f)
 
 
 if __name__ == "__main__":

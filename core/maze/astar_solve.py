@@ -25,11 +25,13 @@ def maze_astar_solve(
     path = []
     steps = []
     parents = [[None] * maze.width for _ in range(maze.height)]
+    g_values = [[float("inf")] * maze.width for _ in range(maze.height)]
 
     pqueue = [(0, maze.start, None)]
+    g_values[maze.start[0]][maze.start[1]] = 0
 
     while pqueue:
-        cost, cur, par = heapq.heappop(pqueue)  # cost is g(x, y)
+        _, cur, par = heapq.heappop(pqueue)  # cost is g(x, y)
 
         if visited[cur[0]][cur[1]]:
             continue
@@ -46,9 +48,11 @@ def maze_astar_solve(
         for candidate in candidates:
             if visited[candidate[0]][candidate[1]]:
                 continue
-            # f = g + h
-            new_cost = cost + 1 + heuristic(maze, candidate)
-            heapq.heappush(pqueue, (new_cost, candidate, cur))
+            g = g_values[cur[0]][cur[1]] + 1
+            if g < g_values[candidate[0]][candidate[1]]:
+                g_values[candidate[0]][candidate[1]] = g
+                f = g + heuristic(maze, candidate)
+                heapq.heappush(pqueue, (f, candidate, cur))
 
     cur = maze.end
     if parents[cur[0]][cur[1]] is not None:
