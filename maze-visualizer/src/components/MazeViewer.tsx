@@ -133,7 +133,7 @@ export function MazeViewer({
       return;
     }
 
-    ctx.reset();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.imageSmoothingEnabled = false;
 
     if (maze == null) {
