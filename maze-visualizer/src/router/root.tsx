@@ -384,7 +384,7 @@ export function Root() {
               <Slider
                 defaultValue={51}
                 value={width}
-                onChange={(e, v) => setWidth(v as number)}
+                onChange={(_e, v) => setWidth(v as number)}
                 step={2}
                 min={5}
                 max={MAX_SIZE}
