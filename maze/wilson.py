@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
 from .maze import Maze, MazeSolution
-from random import randint, choice
+from random import randint, choice, shuffle
 
 class Cell:
     row: int
@@ -16,80 +16,80 @@ class Cell:
         self.walls = [True, True, True, True]
 
 def WilsonsGenerator(height: int, width: int) -> Maze:
-    map = []
+    maze = []
     for i in range(height):
-        map.append([])
+        maze.append([])
         for j in range(width):
-            map[i].append(Cell(i, j)) # Inicialmente, todos os movimentos são válidos
-    
-    def get_random_unvisited(map: List(List(Cell)), visited_cells: List(Cell)) -> Cell:
-        # Pula aleatoriamente pelo tabuleiro até encontrar uma célula não visitada
-        position = choice(choice(map))
-        while position in visited_cells:
-            position = choice(choice(map))  
-        return position
+            maze[i].append(Cell(i, j)) # Inicialmente, todos os movimentos são válidos
 
-    def candidate_moves(map: List(List(Cell)), curr_pos: Cell) -> List(Cell):
+    unvisited = [cell for row in maze for cell in row]
+    shuffle(unvisited)
+
+    first_visit = unvisited.pop()
+    first_visit.visited = True
+
+    def get_random_unvisited() -> Cell:
+        # Pula aleatoriamente pelo tabuleiro até encontrar uma célula não visitada
+        return choice(unvisited)
+
+    def candidate_moves(curr_pos: Cell) -> List[Cell]:
         moves = []
 
-        if (curr_pos.row > 1):
-            moves.append(move_direction(map, curr_pos,  1))
+        if (curr_pos.row > 0): # acima
+            moves.append(move_direction(maze, curr_pos,  1))
 
-        if (curr_pos.col < len(map[0]) - 1):
-            moves.append(move_direction(map, curr_pos,  2))
+        if (curr_pos.col < len(maze[0]) - 1): # direita
+            moves.append(move_direction(maze, curr_pos,  2))
         
-        if (curr_pos.row < len(map) - 1):
-            moves.append(move_direction(map, curr_pos, -1))
+        if (curr_pos.row < len(maze) - 1): # abaixo
+            # print("------Abaixo:", curr_pos.row, '<', len(maze[0]) - 1)
+            moves.append(move_direction(maze, curr_pos, -1))
         
-        if (curr_pos.col > 1):
-            moves.append(move_direction(map, curr_pos, -2))
+        if (curr_pos.col > 0): # esquerda
+            moves.append(move_direction(maze, curr_pos, -2))
+        
+        return moves
 
-    def direction(curr_pos: Cell, next_pos: Cell) -> int:
-        if   curr_pos[1] < next_pos[1]: return  1 # acima
-        elif curr_pos[0] < next_pos[0]: return  2 # direita
-        elif curr_pos[1] > next_pos[1]: return -1 # abaixo
-        elif curr_pos[0] > next_pos[0]: return -2 # esquerda 
+    def direction_to(curr: Cell, next: Cell) -> int:
+        if   curr.row < next.row: return  0 # acima
+        elif curr.col < next.col: return  1 # direita
+        elif curr.row > next.row: return  2 # abaixo
+        elif curr.col > next.col: return  3 # esquerda 
 
-    def move_direction(map: List(List(Cell)), curr_pos: Cell, direction: int) -> Cell:
+    def move_direction(maze: List[List[Cell]], curr_pos: Cell, direction: int) -> Cell:
         match(direction):
             case  1:
-                return map[curr_pos.row + 1][curr_pos.col] # acima
+                return maze[curr_pos.row - 1][curr_pos.col] # acima
             case  2:
-                return map[curr_pos.row][curr_pos.col + 1] # direita
+                return maze[curr_pos.row][curr_pos.col + 1] # direita
             case -1:
-                return map[curr_pos.row - 1][curr_pos.col] # abaixo
+                return maze[curr_pos.row + 1][curr_pos.col] # abaixo
             case -2:
-                return map[curr_pos.row][curr_pos.col - 1] # esquerda
+                return maze[curr_pos.row][curr_pos.col - 1] # esquerda
 
-    def walk() -> List[Tuple[Cell, Direction]]:
-        start_position = get_random_unvisited([])
-        path = {}
-        current_position = start_position
+    while len(unvisited) > 0:
+        curr = get_random_unvisited()
+        path = [curr]
 
-        while True:
-            current_position.visited = True
-            next_position : Cell = choice(maze.candidate_moves(current_position))
-            path[current_position] = direction(current_position, next_position)
+        while curr in unvisited:
+            next = choice(candidate_moves(curr))
+
+            if next in path:
+                path = path[0:path.index(next)+1]
             
-            if next_position.visited:
-                break
+            else:
+                path.append(next)
             
-            current_position = next_position
-
-        track = []
-        current_position = start_position
-        while current_position in path:
-            direction = visits[current_position]
-            track.append((current_position, direction))
-            current_position = move_direction(current_position, direction)
+            curr = next
         
-        return track
 
-    # Gera o mapa
-    visited = []
-    while len(visited) < height * width:
-        for current_position, direction in walk():
-            visited.append(current_position)
-            next_position = move_direction(map, current_position, direction)
-            current_position.walls[direction] = False
-            next_position.walls[-direction] = False
+        prev : Cell = None
+        for cell in path:
+            if prev:
+                prev.walls[direction_to(prev, cell)] = False
+                unvisited.remove(prev)
+            
+            prev = cell
+        
+    
+    return maze
