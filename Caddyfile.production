@@ -1,11 +1,15 @@
-{
-	auto_https disable_redirects
-}
-
-maze.usp.lelis.dev {
+http://10.0.35.140, 
+http://maze.usp.lelis.dev, 
+http://maze.usp.v6.lelis.br, 
+https://maze.usp.lelis.dev, 
+https://maze.usp.v6.lelis.br {
     handle_path /api/* {
         reverse_proxy flask:8000
     }
-    root * /var/www/static
-    file_server
+
+    handle_path /* {
+        root * /var/www/static
+        file_server
+        try_files {path} /index.html
+    }
 }
