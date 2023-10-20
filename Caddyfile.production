@@ -1,0 +1,10 @@
+maze.usp.lelis.dev/api/* {
+    uri strip_prefix /api
+    reverse_proxy flask:8000
+    
+}
+
+maze.usp.lelis.dev {
+    root * /var/www/static
+    file_server
+}

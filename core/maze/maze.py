@@ -47,6 +47,20 @@ class Maze:
     def width(self) -> int:
         return len(self.matrix[0])
 
+    def tidy(self):
+        """Make the maze better looking. Full walls"""
+
+        for i in range(self.height):
+            self[i, 0] = False
+            self[i, self.height - 1] = False
+
+        for i in range(self.width):
+            self[0, i] = False
+            self[self.width - 1, i] = False
+
+        self[self.start] = True
+        self[self.end] = True
+
     def candidate_moves(self, position: Tuple[int, int]) -> List[Tuple[int, int]]:
         """
         Return a list of valid moves from the given position.

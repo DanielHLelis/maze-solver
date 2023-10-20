@@ -27,6 +27,7 @@ def maze_dfs_gen_route(width: int, height: int, seed: str):
     end = (int(end[0]), int(end[1])) if end else None
 
     maze = maze_dfs_gen(height, width, start=start, end=end, seed=seed)
+    maze.tidy()
 
     return maze_to_dict(maze)
 
@@ -52,6 +53,7 @@ def maze_chaos_dfs_gen_route(width: int, height: int, seed: str):
     p = float(request.args.get("p")) if request.args.get("p") else None
 
     maze = maze_chaos_dfs_gen(height, width, start=start, end=end, seed=seed, p=p)
+    maze.tidy()
 
     return maze_to_dict(maze)
 
@@ -76,5 +78,6 @@ def maze_wilson_gen_route(width: int, height: int, seed: str):
     end = (int(end[0]), int(end[1])) if end else None
 
     maze = maze_wilson_gen(height, width, start=start, end=end, seed=seed)
+    maze.tidy()
 
     return maze_to_dict(maze)

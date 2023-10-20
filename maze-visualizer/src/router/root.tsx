@@ -32,8 +32,7 @@ type MazeSolver =
   | "astar-manhattan"
   | "astar-dijkstra"
   | "bfirst-euclidean"
-  | "bfirst-manhattan"
-  | "bfirst-dijkstra";
+  | "bfirst-manhattan";
 
 const MAX_SIZE = 501;
 
@@ -341,7 +340,6 @@ export function Root() {
                     Best-First Euclidiano
                   </Option>
                   <Option value="bfirst-manhattan">Best-First Manhattan</Option>
-                  <Option value="bfirst-dijkstra">Best-First h=0</Option>
                 </Select>
               </Stack>
               <Stack>

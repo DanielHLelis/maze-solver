@@ -1,0 +1,11 @@
+:80/api/* {
+    uri strip_prefix /api
+    reverse_proxy flask:8000
+    
+}
+
+:80 {
+    root * /var/www/static
+    file_server
+}
+
