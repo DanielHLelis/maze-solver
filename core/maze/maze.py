@@ -139,6 +139,8 @@ def dump_maze_json(maze: Maze, path: str):
         "matrix": maze.matrix,
         "start": list(maze.start),
         "end": list(maze.end),
+        "width": maze.width,
+        "height": maze.height,
     }
 
     with open(path, "w") as f:

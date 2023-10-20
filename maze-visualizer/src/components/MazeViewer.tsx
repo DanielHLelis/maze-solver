@@ -59,14 +59,14 @@ export interface MazeViewerProps
   configs?: AnimationConfigs;
 }
 
-const defaultAnimationConfigs: AnimationConfigs = {
-  wallColor: [0, 0, 0],
-  oldColor: [255, 0, 0],
-  recentColor: [0, 255, 0],
-  solutionColor: [0, 0, 255],
-  startColor: [255, 200, 200],
-  endColor: [255, 0, 255],
-  interpolationRange: 100,
+export const defaultAnimationConfigs: AnimationConfigs = {
+  wallColor: [255, 255, 255, 0.9],
+  oldColor: [255, 32, 110],
+  recentColor: [251, 255, 18],
+  solutionColor: [65, 234, 212],
+  startColor: [0, 255, 0],
+  endColor: [255, 0, 0],
+  interpolationRange: 250,
 };
 
 export function MazeViewer({
@@ -296,7 +296,4 @@ function stepColor(
 
 /* Styles */
 
-const StyledMaze = styled(MazeCanvas)`
-  border: 1px solid black;
-  border-radius: 8px;
-`;
+const StyledMaze = styled(MazeCanvas)``;

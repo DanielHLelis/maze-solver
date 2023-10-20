@@ -8,7 +8,7 @@ import { Root } from "./root";
 
 function SiteRoutes() {
   return (
-    <CssVarsProvider>
+    <CssVarsProvider defaultMode="dark">
       <CssBaseline />
       <Routes>
         <Route path="/" element={<Root />} />

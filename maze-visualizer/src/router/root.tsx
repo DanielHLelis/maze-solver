@@ -13,7 +13,7 @@ import {
 import { Maze, MazeCoord, MazeViewer } from "../components/MazeViewer";
 
 import sample_maze from "../assets/sample.maze.json";
-import sample_maze_sol from "../assets/sample.maze.sol.json";
+import sample_maze_sol from "../assets/sample.maze.solution.json";
 
 interface MazeSolution {
   path: MazeCoord[];
