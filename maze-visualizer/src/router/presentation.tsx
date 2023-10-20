@@ -24,6 +24,7 @@ import maze_bman from "../assets/sample.bman.json";
 import { Maze, MazeCoord, MazeViewer } from "../components/MazeViewer";
 import { Button, Grid, Input, Slider, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 interface MazeSolution {
   steps: MazeCoord[];
@@ -198,10 +199,12 @@ function MazeSlide({
   solution,
   initialStepsPerFrame = 4,
 }: MazeSlideProps) {
-  const [playing, setPlaying] = useState<boolean>(false);
+  const search = useLocation().search;
+  const exportMode = new URLSearchParams(search).get("exportMode");
+  const [playing, setPlaying] = useState<boolean>(true);
   const [currentFrame, setCurrentFrame] = useState<number>(0);
   const [nextFrame, setNextFrame] = useState<number | null>(
-    solution?.steps.length ?? 0
+    exportMode === "true" ? solution?.steps.length ?? 0 : 0
   );
   const [stepsPerFrame, setStepsPerFrame] =
     useState<number>(initialStepsPerFrame);
