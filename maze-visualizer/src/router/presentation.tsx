@@ -9,6 +9,7 @@ import {
   UnorderedList,
   ListItem,
 } from "spectacle";
+import { QRCodeSVG } from "qrcode.react";
 
 import maze from "../assets/sample.maze.json";
 import maze_d from "../assets/sample.maze-dfs.json";
@@ -24,7 +25,6 @@ import maze_bman from "../assets/sample.bman.json";
 import { Maze, MazeCoord, MazeViewer } from "../components/MazeViewer";
 import { Button, Grid, Input, Slider, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
 
 interface MazeSolution {
   steps: MazeCoord[];
@@ -40,6 +40,9 @@ const theme: SpectacleThemeOverrides = {
     quinary: "#fbff12",
   },
 };
+
+const gitLink = "https://github.com/DanielHLelis/maze-solver";
+const siteLink = "https://maze.usp.lelis.dev/";
 
 export function Presentation() {
   return (
@@ -182,7 +185,70 @@ export function Presentation() {
         </Grid>
       </Slide>
       <Slide>
-        <Heading>Resultados</Heading>
+        <Heading>Resultados - Iterações</Heading>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <GraphImg src="/it-005.png" />
+          <GraphImg src="/it-020.png" />
+        </Stack>
+      </Slide>
+      <Slide>
+        <Heading>Resultados - Iterações</Heading>
+        <UnorderedList>
+          <ListItem>Redução de iterações na busca informada</ListItem>
+          <ListItem>
+            Contraste entre solução ótima e o número de iterações
+          </ListItem>
+        </UnorderedList>
+      </Slide>
+      <Slide>
+        <Heading>Resultados - Caminho</Heading>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <GraphImg src="/sol-005.png" />
+          <GraphImg src="/sol-020.png" />
+        </Stack>
+      </Slide>
+      <Slide>
+        <Heading>Resultados - Caminho</Heading>
+        <UnorderedList>
+          <ListItem>A* mostrou-se o mais eficiente para solução ótima</ListItem>
+          <ListItem>
+            Best-First apresentou o melhor balanço entre o número de iterações e
+            o caminho encontrado.
+          </ListItem>
+          <ListItem>
+            DFS mostrou-se o pior algoritmo para solução ótima (muitos
+            zig-zags).
+          </ListItem>
+        </UnorderedList>
+      </Slide>
+      <Slide>
+        <Heading>Resultados - Ratio</Heading>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <GraphImg src="/ratio-005.png" />
+          <GraphImg src="/ratio-020.png" />
+        </Stack>
+      </Slide>
+      <Slide>
+        <Heading>FIM :)</Heading>
+
+        <Grid container spacing={6} columns={2}>
+          <Grid xs={1}>
+            <Typography level="h1" textAlign="center" gutterBottom>
+              <a href={gitLink} target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+            </Typography>
+            <QRCodeSVG value={gitLink} width="100%" height="300px" />
+          </Grid>
+          <Grid xs={1}>
+            <Typography level="h1" textAlign="center" gutterBottom>
+              <a href={gitLink} target="_blank" rel="noreferrer">
+                Site
+              </a>
+            </Typography>
+            <QRCodeSVG value={siteLink} width="100%" height="300px" />
+          </Grid>
+        </Grid>
       </Slide>
     </Deck>
   );
@@ -199,12 +265,10 @@ function MazeSlide({
   solution,
   initialStepsPerFrame = 4,
 }: MazeSlideProps) {
-  const search = useLocation().search;
-  const exportMode = new URLSearchParams(search).get("exportMode");
-  const [playing, setPlaying] = useState<boolean>(true);
+  const [playing, setPlaying] = useState<boolean>(false);
   const [currentFrame, setCurrentFrame] = useState<number>(0);
   const [nextFrame, setNextFrame] = useState<number | null>(
-    exportMode === "true" ? solution?.steps.length ?? 0 : 0
+    solution?.steps.length ?? 0
   );
   const [stepsPerFrame, setStepsPerFrame] =
     useState<number>(initialStepsPerFrame);
@@ -309,4 +373,9 @@ const AlgorithmTitle = styled.h3`
   text-align: center;
   color: ${theme.colors?.quaternary};
   margin-bottom: 0;
+`;
+
+const GraphImg = styled.img`
+  max-width: 600px;
+  height: 100%;
 `;
