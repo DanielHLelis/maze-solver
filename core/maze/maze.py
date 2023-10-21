@@ -52,11 +52,11 @@ class Maze:
 
         for i in range(self.height):
             self[i, 0] = False
-            self[i, self.height - 1] = False
+            self[i, self.width - 1] = False
 
         for i in range(self.width):
             self[0, i] = False
-            self[self.width - 1, i] = False
+            self[self.height - 1, i] = False
 
         self[self.start] = True
         self[self.end] = True
