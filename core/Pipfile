@@ -11,6 +11,11 @@ flask-cors = "*"
 gunicorn = "*"
 
 [dev-packages]
+jupyter = "*"
+matplotlib = "*"
+numpy = "*"
+seaborn = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.11"

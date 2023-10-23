@@ -1,3 +1,6 @@
+core/mazes.pickle
+core/results.pickle
+
 # Created by https://www.toptal.com/developers/gitignore/api/flask,python,pycharm+all,visualstudiocode,vim,macos,windows,linux,react,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,pycharm+all,visualstudiocode,vim,macos,windows,linux,react,node
 
