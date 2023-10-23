@@ -7,7 +7,7 @@ author:
     - Daniel Henrique Lelis de Almeida - 12543822
     - Gustavo Wadas Lopes – 12745640
     - Pedro Henrique Vilela do Nascimento – 1283492
-    - Pedro Henrique Vilela do Nascimento – 1283492 
+    - Samuel Figueiredo Veronez – 12542626
 ---
 
 ## Introdução
