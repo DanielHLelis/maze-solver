@@ -25,7 +25,7 @@ para que pudéssemos testar os algoritmos em diferentes situações e conseguir 
 
 Outro aspecto importante era a visualização dos labirintos e dos algoritmos de busca. Para isso, decidimos implementar uma pequena aplicação web capaz de representar
 os labirintos e animar as buscas de maneira iterativa, fazendo uso do modelo cliente-servidor para que nossa aplicação pudesse consumir os dados gerados pelos algoritmos
-implementados em Python. Esta aplicação está disponível no repositório do projeto, e pode ser acessada através do link: <https://maze.usp.lelis.dev>.
+implementados em Python. Esta aplicação está disponível no repositório do projeto (<https://github.com/DanielHLelis/maze-solver>), e pode ser acessada através do link: <https://maze.usp.lelis.dev>.
 
 ## Os Labirintos
 
